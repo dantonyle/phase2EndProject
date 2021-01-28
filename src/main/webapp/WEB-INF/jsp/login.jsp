@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<title>First Web Application</title>
+<title>Log In Page</title>
 </head>
 
 <body>

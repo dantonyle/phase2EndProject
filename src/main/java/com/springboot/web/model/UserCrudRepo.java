@@ -1,5 +1,7 @@
 package com.springboot.web.model;
 
-public class UserCrudRepo {
+import org.springframework.data.repository.CrudRepository;
 
+
+public interface UserCrudRepo extends CrudRepository<UserEntity, Long> {
 }
