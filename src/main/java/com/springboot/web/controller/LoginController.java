@@ -18,8 +18,15 @@ public class LoginController {
 	LoginService service;
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String showLoginPage(ModelMap model){
-		return "login";
+	public String showLoginPage(ModelMap model){ return "login"; }
+	
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public String LoginVerify(ModelMap model, @RequestParam String name, @RequestParam String password) { 
+		
+		
+		model.put("name", name);
+		model.put("password", password);
+		return "welcome";
 	}
 	
 
