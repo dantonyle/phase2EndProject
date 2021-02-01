@@ -5,7 +5,7 @@
 </head>
 <body>
 	<h1>Welcome to Phase 2 End Project</h1><br>
-	<p><h1><font color="green">${name}</font></h1></p>
+	<h1><font color="green">${name}</font></h1>
 		<br>
 	<form:form action="processButton" method="post">
      <input type = "submit" name = "loginBtn" value="Login"/>
@@ -13,7 +13,8 @@
      <input type = "submit" name = "forgotBtn" value="Forgot Password"/> 
    </form:form>
    <br>
-   <p><h1><font color="blue">${message}</font></h1></p>
+   <h4>${special}</h4>
+   <h2><font color="blue">${message}</font></h2>
    <br>
    <h4>By Dan Tony Le</h4>
    </body>

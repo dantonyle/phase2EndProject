@@ -26,6 +26,10 @@ public class LoginController {
 
 		boolean blank = false;
 
+		if (!(dbService.checkUserNameExists(user.getUsername()))) {
+			model.put("usernameERROR", "Username does not exist");
+			blank = true;
+		}
 		if (dbService.checkForBlanks(user.getUsername())) {
 			model.put("usernameERROR", "Username can not be blank, empty, or contain empty spaces");
 			blank = true;
@@ -34,10 +38,7 @@ public class LoginController {
 			model.put("passwordERROR", "Password can not be blank, empty, or contain empty spaces");
 			blank = true;
 		}
-		if (!(dbService.checkUserNameExists(user.getUsername()))) {
-			model.put("usernameERROR", "Username does not exist");
-			blank = true;
-		}
+	
 		
 
 
@@ -54,7 +55,7 @@ public class LoginController {
 			return "welcome";
 		}
 
-		model.put("error", "Incorrect username or password was incorrect");
+		model.put("error", "Incorrect password");
 		return "login";
 	}
 	

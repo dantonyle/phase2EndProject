@@ -34,12 +34,11 @@ public class RegisterController {
 		if ( regService.checkForBlanks(user.getPassword())) { model.put("passwordERROR", "Password can not be blank, empty, or contain empty spaces" ); blank = true; }
 		if ( regService.checkForBlanks(user.getEmail())) { model.put("emailERROR", "Email can not be be blank, empty, or contain empty spaces" ); blank = true; }
 		if ( !(user.getPassword().equals(repassword))) { model.put("repasswordERROR", "Password does not match"); blank = true; }
+		// Email must have a domain
+		if ( !regService.checkEmaildomain(user.getEmail())) { model.put("emailERROR", "Email must contain a domain name" ); blank = true; }
 		
 		if (blank) { return "register"; } 
 		else { model.clear(); }
-		
-		// Email must have a domain
-		if ( !regService.checkEmaildomain(user.getEmail())) { model.put("emailERROR", "Email does not contain a domain name" ); return "register"; }
 		
 		// Save if possible
 		int outcome = regService.saveNewUser(user.getUsername(), user.getPassword(), user.getEmail());

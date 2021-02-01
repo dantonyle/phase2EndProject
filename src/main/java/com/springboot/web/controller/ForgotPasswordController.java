@@ -40,6 +40,7 @@ public class ForgotPasswordController {
 			model.put("emailERROR", "Email can not be blank, empty, or contain empty spaces");
 			blank = true;
 		}
+		
 	
 
 		if (blank) {
@@ -55,13 +56,14 @@ public class ForgotPasswordController {
 		
 		switch (rtnMsg) {
 		case "wp":
-			model.put("emailERROR", "Email entered was incorrect, please enter full email and domain");
+			model.put("error", "Email entered was incorrect, please enter full email and domain");
 			return "forgotPassword";
 		case "udne":
 			model.put("usernameERROR", "Username does not exist");
 			return "forgotPassword";
 		default:
-			model.put("message", "Password for the username and email previously entered was: "+ rtnMsg);
+			model.put("special", "Password for the username and email previously entered was: ");
+			model.put("message", rtnMsg);
 			return "welcome";
 
 		}
