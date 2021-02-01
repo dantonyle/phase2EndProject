@@ -34,6 +34,11 @@ public class LoginController {
 			model.put("passwordERROR", "Password can not be blank, empty, or contain empty spaces");
 			blank = true;
 		}
+		if (!(dbService.checkUserNameExists(user.getUsername()))) {
+			model.put("usernameERROR", "Username does not exist");
+			blank = true;
+		}
+		
 
 
 		if (blank) {
@@ -44,12 +49,16 @@ public class LoginController {
 
 		if (dbService.validateUserEntry(user.getUsername(), user.getPassword())) {
 			// if user and password is correct
-			model.put("message", "User " + user.getUsername() + " logged In Successfully");
+			model.put("name", user.getUsername());
+			model.put("message", "You have been Logged In Successfully");
 			return "welcome";
 		}
 
 		model.put("error", "Incorrect username or password was incorrect");
 		return "login";
 	}
+	
+	@RequestMapping(value="/retButton",params="welcomeBtn",method=RequestMethod.POST)
+	public String logToWelcomeAction(ModelMap model) { return "redirect:welcome"; }
 
 }

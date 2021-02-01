@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class WelcomeController {
 
+	@RequestMapping(value="/", method = RequestMethod.GET)
+	public String showTheWelcomePage(ModelMap model) { return "redirect:welcome"; }
+	
 	@RequestMapping(value="/welcome", method = RequestMethod.GET)
 	public String showWelcomePage(ModelMap model) { return "welcome"; }
 	
@@ -17,4 +20,7 @@ public class WelcomeController {
 	
 	@RequestMapping(value="/processButton",params="registerBtn",method=RequestMethod.POST)
 	public String regAction(ModelMap model) { return "redirect:register"; }
+	
+	@RequestMapping(value="/processButton",params="forgotBtn",method=RequestMethod.POST)
+	public String forgotAction(ModelMap model) { return "redirect:forgotPassword"; }
 }

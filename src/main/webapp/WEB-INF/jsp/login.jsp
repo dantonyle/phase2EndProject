@@ -1,3 +1,5 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 <html>
 <head>
 <title>New Register Page</title>
@@ -24,6 +26,9 @@
 			<font color="red">${error}</font>
 		</div>
 	</form>
+	<form:form action="retButton" method="post">
+	Return to: <input type = "submit" name = "welcomeBtn" value="Welcome Screen"/>
+	</form:form>
 	<!-- form -->
 </body>
 </html>

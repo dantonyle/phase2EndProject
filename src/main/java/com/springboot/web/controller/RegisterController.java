@@ -46,7 +46,7 @@ public class RegisterController {
 
 		switch (outcome) {
 		case 1:
-			model.put("message", "New User Registered");
+			model.put("message", "New User - <font color='green'>" + user.getUsername() + "</font> - Registered");
 			return "welcome";
 		case 2:
 			model.put("error", "An entry is either blank or contains whitespace");
@@ -65,5 +65,8 @@ public class RegisterController {
 		return "welcome";
 		*/
 	}
+	
+	@RequestMapping(value="/returnWelcomeButton",params="welcomeBtn",method=RequestMethod.POST)
+	public String registerToWelcomeAction(ModelMap model) { return "redirect:welcome"; }
 
 }

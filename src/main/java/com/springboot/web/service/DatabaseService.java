@@ -51,7 +51,7 @@ public class DatabaseService {
 		Iterable<UserEntity> users = userCrudRepo.findAll();
 
 		for (UserEntity user : users) {
-			if (user.getUsername().equals(username)) {
+			if (user.getUsername().toLowerCase().equals(username.toLowerCase())) {
 					return true;
 			}
 		}
@@ -116,6 +116,23 @@ public class DatabaseService {
 		}
 
 		return false;
+
+	}
+	
+	public String returnPassword( String username, String email ) {
+		
+		Iterable<UserEntity> users = userCrudRepo.findAll();
+
+		for (UserEntity user : users) {
+			if (user.getUsername().equals(username)) {
+				if (user.getEmail().equals(email)) {
+					return user.getPassword();
+				}
+				return "wp";
+			}
+		}
+
+		return "udne";
 
 	}
 
