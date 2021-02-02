@@ -11,6 +11,7 @@
      <input type = "submit" name = "loginBtn" value="Login"/>
      <input type = "submit" name = "registerBtn" value="Register"/>
      <input type = "submit" name = "forgotBtn" value="Forgot Password"/> 
+     <input type = "submit" name = "resetBtn" value="Reset Password"/> 
    </form:form>
    <br>
    <h4>${special}</h4>

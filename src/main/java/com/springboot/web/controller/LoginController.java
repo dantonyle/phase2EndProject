@@ -24,31 +24,31 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginVerify(ModelMap model, @ModelAttribute UserEntity user) {
 
-		boolean blank = false;
+		boolean inputError = false;
 
 		if (!(dbService.checkUserNameExists(user.getUsername()))) {
 			model.put("usernameERROR", "Username does not exist");
-			blank = true;
+			inputError = true;
 		}
 		if (dbService.checkForBlanks(user.getUsername())) {
 			model.put("usernameERROR", "Username can not be blank, empty, or contain empty spaces");
-			blank = true;
+			inputError = true;
 		}
 		if (dbService.checkForBlanks(user.getPassword())) {
 			model.put("passwordERROR", "Password can not be blank, empty, or contain empty spaces");
-			blank = true;
+			inputError = true;
 		}
 	
 		
 
 
-		if (blank) {
+		if (inputError) {
 			return "login";
 		} else {
 			model.clear();
 		}
 
-		if (dbService.validateUserEntry(user.getUsername(), user.getPassword())) {
+		if (dbService.validateUserLogin(user.getUsername(), user.getPassword())) {
 			// if user and password is correct
 			model.put("name", user.getUsername());
 			model.put("message", "You have been Logged In Successfully");

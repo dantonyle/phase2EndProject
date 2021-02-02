@@ -1,5 +1,7 @@
 package com.springboot.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,31 +16,41 @@ import com.springboot.web.service.DatabaseService;
 @Controller
 public class RegisterController {
 
+	private static Logger logger = LoggerFactory.getLogger(RegisterController.class);
+	
 	@Autowired
 	DatabaseService regService;
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegPage(ModelMap model) {
+		logger.info("UPDATE PAGE -- SHOWING new Register Page");
 		return "register";
+		
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST )
 	public String RegVerify(ModelMap model, @ModelAttribute UserEntity user, @RequestParam String repassword) {
-
+		
+		logger.info("UPDATE PAGE -- IN the Register Page");
 		// Blank, Whitespace, or Empty Check
-		boolean blank = false;
+		boolean inputError = false;
 		
-		
-		if ( regService.checkUserNameExists(user.getUsername())) { model.put("usernameERROR", "Username already exists" ); blank = true; }
-		if ( regService.checkForBlanks(user.getUsername())) { model.put("usernameERROR", "Username can not be blank, empty, or contain empty spaces" ); blank = true; }
-		if ( regService.checkForBlanks(user.getPassword())) { model.put("passwordERROR", "Password can not be blank, empty, or contain empty spaces" ); blank = true; }
-		if ( regService.checkForBlanks(user.getEmail())) { model.put("emailERROR", "Email can not be be blank, empty, or contain empty spaces" ); blank = true; }
-		if ( !(user.getPassword().equals(repassword))) { model.put("repasswordERROR", "Password does not match"); blank = true; }
+		logger.info("REGISTER page -- textbox check start... ");
+		if ( regService.checkUserNameExists(user.getUsername())) { model.put("usernameERROR", "Username already exists" ); inputError = true; }
+		if ( regService.checkForBlanks(user.getUsername())) { model.put("usernameERROR", "Username can not be blank, empty, or contain empty spaces" ); inputError = true; }
+		if ( regService.checkForBlanks(user.getPassword())) { model.put("passwordERROR", "Password can not be blank, empty, or contain empty spaces" ); inputError = true; }
+		if ( regService.checkForBlanks(user.getEmail())) { model.put("emailERROR", "Email can not be be blank, empty, or contain empty spaces" ); inputError = true; }
+		if ( !(user.getPassword().equals(repassword))) { model.put("repasswordERROR", "Password does not match"); inputError = true; }
 		// Email must have a domain
-		if ( !regService.checkEmaildomain(user.getEmail())) { model.put("emailERROR", "Email must contain a domain name" ); blank = true; }
+		if ( !regService.checkEmaildomain(user.getEmail())) { model.put("emailERROR", "Email must contain a domain name" ); inputError = true; }
 		
-		if (blank) { return "register"; } 
-		else { model.clear(); }
+		if (inputError) { 
+			
+			logger.info("REGISTER page -errorFOUND- textbox or issue found...");
+			return "register"; } 
+		else { 
+			logger.info("REGISTER page -COMPLETE-  Attempt to SAVE to DB");
+			model.clear(); }
 		
 		// Save if possible
 		int outcome = regService.saveNewUser(user.getUsername(), user.getPassword(), user.getEmail());
@@ -46,23 +58,19 @@ public class RegisterController {
 		switch (outcome) {
 		case 1:
 			model.put("message", "New User - <font color='green'>" + user.getUsername() + "</font> - Registered");
+			logger.info("REGISTER page -success- GOING to Welcome Page - SAVED to DB");
 			return "welcome";
 		case 2:
 			model.put("error", "An entry is either blank or contains whitespace");
+			logger.info("REGISTER page -error SOMEHOW BLANK- SHOWING new Register Page");
 			return "register";
 		default:
 			model.put("error", "Unknown Error");
+			logger.info("REGISTER page -error UNABLE TO SAVE- SHOWING new Register Page");
 			return "redirect:register";
 
 		}
-		/*
-		if (outcome == 1) {
-			model.put("message", "New User Registered");
-			return "welcome";
-		}
-
-		return "welcome";
-		*/
+		
 	}
 	
 	@RequestMapping(value="/returnWelcomeButton",params="welcomeBtn",method=RequestMethod.POST)

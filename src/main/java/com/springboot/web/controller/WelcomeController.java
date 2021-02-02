@@ -23,4 +23,7 @@ public class WelcomeController {
 	
 	@RequestMapping(value="/processButton",params="forgotBtn",method=RequestMethod.POST)
 	public String forgotAction(ModelMap model) { return "redirect:forgotPassword"; }
+	
+	@RequestMapping(value="/processButton",params="resetBtn",method=RequestMethod.POST)
+	public String resetAction(ModelMap model) { return "redirect:reset"; }
 }

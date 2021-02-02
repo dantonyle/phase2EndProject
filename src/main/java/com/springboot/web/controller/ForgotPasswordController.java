@@ -26,24 +26,24 @@ public class ForgotPasswordController {
 
 		// Get username and email -- > normally user will get password reset in email
 		// (we have not covered this)
-		boolean blank = false;
+		boolean inputError = false;
 
 		if (!(dbService.checkUserNameExists(user.getUsername()))) {
 			model.put("usernameERROR", "Username does not exist");
-			blank = true;
+			inputError = true;
 		}
 		if (dbService.checkForBlanks(user.getUsername())) {
 			model.put("usernameERROR", "Username can not be blank, empty, or contain empty spaces");
-			blank = true;
+			inputError = true;
 		}
 		if (dbService.checkForBlanks(user.getEmail())) {
 			model.put("emailERROR", "Email can not be blank, empty, or contain empty spaces");
-			blank = true;
+			inputError = true;
 		}
 		
 	
 
-		if (blank) {
+		if (inputError) {
 			return "forgotPassword";
 		} else {
 			model.clear();
@@ -55,10 +55,10 @@ public class ForgotPasswordController {
 		rtnMsg = dbService.returnPassword(user.getUsername(), user.getEmail());
 		
 		switch (rtnMsg) {
-		case "wp":
+		case "-1":
 			model.put("error", "Email entered was incorrect, please enter full email and domain");
 			return "forgotPassword";
-		case "udne":
+		case "-2":
 			model.put("usernameERROR", "Username does not exist");
 			return "forgotPassword";
 		default:
@@ -70,6 +70,6 @@ public class ForgotPasswordController {
 	}
 	
 	@RequestMapping(value="/processButton",params="welcomeBtn",method=RequestMethod.POST)
-	public String returnWelcomeAction(ModelMap model) { return "redirect:welcome"; }
+	public String forgotToWelcomeAction(ModelMap model) { return "redirect:welcome"; }
 
 }

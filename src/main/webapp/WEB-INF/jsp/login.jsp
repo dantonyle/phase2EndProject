@@ -9,7 +9,7 @@
 		<h1>Login Form</h1>
 		<div>
 			<p>
-				Username: <input type="text" name="username" /><br> <font
+				User-name: <input type="text" name="username" /><br> <font
 				color="red"> ${usernameERROR} </font>
 			</p>
 			<p>
